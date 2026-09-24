@@ -130,10 +130,26 @@ class Handler(BaseHTTPRequestHandler):
             with connect() as db:
                 rows = db.execute("SELECT body FROM products ORDER BY id").fetchall()
             return self.send_json(200, {"products": [json.loads(row[0]) for row in rows]})
+        if path == "/api/catalog-preview":
+            with connect() as db:
+                rows = db.execute("SELECT body FROM products ORDER BY id").fetchall()
+            products = []
+            for row in rows:
+                product = json.loads(row[0])
+                products.append({key: product.get(key) for key in (
+                    "id", "brand", "model", "color_code", "category", "price_eur",
+                    "dimensions_mm", "images", "inventory", "short_description",
+                    "description_review", "material", "material_review"
+                )})
+            return self.send_json(200, {"products": products, "preview_only": True})
         if path in ("/", "/admin"):
             return self.serve_file(ADMIN / "index.html")
+        if path == "/catalog-preview":
+            return self.serve_file(ADMIN / "catalog-preview.html")
         if path == "/admin.js":
             return self.serve_file(ADMIN / "admin.js")
+        if path == "/catalog-preview.js":
+            return self.serve_file(ADMIN / "catalog-preview.js")
         file = (ROOT / path.lstrip("/")).resolve()
         if file.is_relative_to(ROOT / "assets/products") or file.is_relative_to(UPLOADS):
             return self.serve_file(file)
