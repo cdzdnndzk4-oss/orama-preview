@@ -1,0 +1,57 @@
+{
+  "brand": "FURLA",
+  "model": "VFU773",
+  "price_eur": 193,
+  "category": "Γυαλιά Οράσεως",
+  "source_photos": [
+    {
+      "view": "front",
+      "file": "IMG_6526.jpeg",
+      "library_file_id": "libfile_56b76d3e6fb08191aeea9ea849dc5ba1"
+    },
+    {
+      "view": "three_quarter",
+      "file": "IMG_6527.jpeg",
+      "library_file_id": "libfile_4515b874cee8819184c241c5fa6c924b"
+    },
+    {
+      "view": "side",
+      "file": "IMG_6529.jpeg",
+      "library_file_id": "libfile_e401bd5463dc81919c9351f4ffec1168"
+    }
+  ],
+  "processed_photos": [
+    {
+      "view": "front",
+      "file": "../assets/products/furla-vfu773/front.png"
+    },
+    {
+      "view": "three_quarter",
+      "file": "../assets/products/furla-vfu773/three-quarter.png"
+    },
+    {
+      "view": "side",
+      "file": "../assets/products/furla-vfu773/side.png"
+    }
+  ],
+  "photo_review": "approved_by_owner",
+  "lens_mm": 54,
+  "bridge_mm": 18,
+  "temple_mm": 140,
+  "color_code": "0300",
+  "label_photo": "IMG_9712B4C0-4650-489C-942E-7213C0BEEE90.jpeg",
+  "label_library_file_id": "libfile_211f2151cc408191be13be2ba923027d",
+  "sku": null,
+  "inventory": {
+    "quantity": 1,
+    "store": "Αγία Παρασκευή"
+  },
+  "publication_status": "approved_for_catalog",
+  "short_description": "Ένα ιδιαίτερο μοντέλο με διακριτική παρουσία από μπροστά και πιο δυναμικό χαρακτήρα στους βραχίονες, για όσες θέλουν το γυαλί τους να εκφράζει το προσωπικό τους στιλ. Αφήνει το πρόσωπο να πρωταγωνιστεί και ξεχωρίζει μέσα από τις λεπτομέρειες, χωρίς να χάνει την κομψότητά του στην καθημερινή χρήση.",
+  "description_review": "approved_by_owner",
+  "material": "Ατσάλι",
+  "material_review": "approved_by_owner",
+  "style": "ιδιαίτερο",
+  "audience": "γυναικείο",
+  "visual_note": "Η διακριτική όψη από μπροστά συναντά τον πιο δυναμικό χαρακτήρα των βραχιόνων"
+}

@@ -1,0 +1,58 @@
+{
+  "brand": "FURLA",
+  "model": "535",
+  "price_eur": 196,
+  "category": "Γυαλιά Οράσεως",
+  "source_photos": [
+    {
+      "view": "front",
+      "file": "IMG_6530.jpeg",
+      "library_file_id": "libfile_fc4bb33db800819187473c59669a77d3"
+    },
+    {
+      "view": "three_quarter",
+      "file": "IMG_6531.jpeg",
+      "library_file_id": "libfile_e0b8f608dc4c8191b0296fa7a0b10494"
+    },
+    {
+      "view": "side",
+      "file": "IMG_6532.jpeg",
+      "library_file_id": "libfile_0ce1bb5720108191868b52a66d941a82"
+    }
+  ],
+  "processed_photos": [
+    {
+      "view": "front",
+      "file": "../assets/products/furla-535/front.png"
+    },
+    {
+      "view": "three_quarter",
+      "file": "../assets/products/furla-535/three-quarter.png"
+    },
+    {
+      "view": "side",
+      "file": "../assets/products/furla-535/side.png"
+    }
+  ],
+  "photo_review": "approved_by_owner",
+  "lens_mm": 51,
+  "bridge_mm": 19,
+  "temple_mm": 135,
+  "color_code": "0216",
+  "label_photo": "IMG_6564.jpeg",
+  "label_library_file_id": "libfile_b9bd7b1add08819188204a4243b5902c",
+  "label_marking_note": "Owner supplied model 535, color 0216, dimensions, and price manually.",
+  "sku": null,
+  "inventory": {
+    "quantity": 1,
+    "store": "Αγία Παρασκευή"
+  },
+  "publication_status": "approved_for_catalog",
+  "short_description": "Ένας θηλυκός σκελετός με σύγχρονο χαρακτήρα, που συνδυάζει καθαρές γραμμές με μια διακριτική αντίθεση χρωμάτων. Η σκούρα επάνω γραμμή, το χρυσαφί περίγραμμα και οι ανοιχτόχρωμοι βραχίονες του δίνουν προσωπικότητα. Ιδανική επιλογή για όσες θέλουν ένα γυαλί που ξεχωρίζει χωρίς να γίνεται υπερβολικό.",
+  "description_review": "approved_by_owner",
+  "material": "Ατσάλι",
+  "material_review": "approved_by_owner",
+  "style": "κομψό",
+  "audience": "γυναικείο",
+  "visual_note": "Η σκούρα επάνω γραμμή, το χρυσαφί περίγραμμα και οι ανοιχτόχρωμοι βραχίονες του δίνουν προσωπικότητα"
+}
