@@ -48,9 +48,9 @@
   },
   "publication_status": "approved_for_catalog",
   "short_description": "Ένα ιδιαίτερο μοντέλο με διακριτική παρουσία από μπροστά και πιο δυναμικό χαρακτήρα στους βραχίονες, για όσες θέλουν το γυαλί τους να εκφράζει το προσωπικό τους στιλ. Αφήνει το πρόσωπο να πρωταγωνιστεί και ξεχωρίζει μέσα από τις λεπτομέρειες, χωρίς να χάνει την κομψότητά του στην καθημερινή χρήση.",
-  "description_review": "suggested_pending_owner_review",
-  "material": "Μέταλλο",
-  "material_review": "suggested_pending_owner_review",
+  "description_review": "approved_by_owner",
+  "material": "Ατσάλι",
+  "material_review": "approved_by_owner",
   "style": "ιδιαίτερο",
   "audience": "γυναικείο",
   "visual_note": "Η διακριτική όψη από μπροστά συναντά τον πιο δυναμικό χαρακτήρα των βραχιόνων"

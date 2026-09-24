@@ -39,9 +39,9 @@
   "publication_status": "approved_for_catalog",
   "label_association_review": "confirmed_by_owner",
   "short_description": "Ένας θηλυκός σκελετός με σύγχρονη αισθητική και κομψή παρουσία, που δίνει χαρακτήρα στην καθημερινή εμφάνιση χωρίς να γίνεται έντονος. Η σκούρα επάνω γραμμή και οι χρυσαφί λεπτομέρειες δημιουργούν μια διακριτική αντίθεση. Ιδανική επιλογή για όσες θέλουν ένα γυαλί με προσωπικότητα, από το πρωί μέχρι το βράδυ.",
-  "description_review": "suggested_pending_owner_review",
-  "material": "Συνδυασμός υλικών",
-  "material_review": "suggested_pending_owner_review",
+  "description_review": "approved_by_owner",
+  "material": "Ατσάλι στη μετώπη, κοκκάλινοι βραχίονες",
+  "material_review": "approved_by_owner",
   "style": "κομψό",
   "audience": "γυναικείο",
   "visual_note": "Η σκούρα επάνω γραμμή και οι χρυσαφί λεπτομέρειες δημιουργούν μια διακριτική αντίθεση"

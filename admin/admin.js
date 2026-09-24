@@ -1,5 +1,6 @@
 const $ = s => document.querySelector(s);
 let products = [], editing = null, photoPaths = [null, null, null], descriptionVariant = 0, seenDrafts = [];
+let photoDrafts = [null,null,null], photoGeneration = [0,0,0];
 const views = ['Μπροστά', 'Τρία τέταρτα', 'Πλάι'];
 const msg = (text, error=false) => { $('#message').className = text ? `message ${error?'error':''}` : ''; $('#message').textContent = text; };
 const api = async (path, method='GET', body) => {
@@ -11,17 +12,42 @@ const api = async (path, method='GET', body) => {
 function slots(){
   const box = $('#photos'); box.replaceChildren();
   views.forEach((label,i)=>{
-    const section=document.createElement('label'); section.className='photo-slot';
-    const preview=document.createElement('img'); preview.alt=`${label} - προεπισκόπηση`; preview.id=`preview${i}`;
-    if(photoPaths[i]) preview.src=photoPaths[i].startsWith('data:')?photoPaths[i]:'/'+photoPaths[i];
+    const section=document.createElement('div'); section.className='photo-slot';
+    const title=document.createElement('strong'); title.textContent=label;
+    const current=document.createElement('img');current.alt=`${label} - αποθηκευμένη φωτογραφία`;
+    if(photoPaths[i])current.src='/'+photoPaths[i];
     const input=document.createElement('input'); input.type='file'; input.accept='image/jpeg,image/png'; input.id=`photo${i}`;
-    input.addEventListener('change',()=>{if(input.files[0]) preview.src=URL.createObjectURL(input.files[0]);});
-    const title=document.createElement('span'); title.textContent=label;
-    section.append(title,preview,input); box.append(section);
+    input.setAttribute('aria-label',`Νέα φωτογραφία: ${label}`);
+    const choices=document.createElement('div');choices.className='photo-choices';
+    const status=document.createElement('small');status.setAttribute('role','status');
+    function option(kind,text,src){
+      const labelElement=document.createElement('label');labelElement.className='photo-option';
+      const radio=document.createElement('input');radio.type='radio';radio.name=`photo-choice-${i}`;radio.value=kind;radio.checked=kind==='original';
+      const image=document.createElement('img');image.src=src;image.alt=`${label} - ${text}`;
+      const caption=document.createElement('span');caption.textContent=text;
+      labelElement.append(radio,image,caption);choices.append(labelElement);
+    }
+    input.addEventListener('change',async()=>{
+      const file=input.files[0];if(!file)return;
+      const generation=++photoGeneration[i];
+      if(photoDrafts[i]?.objectURL)URL.revokeObjectURL(photoDrafts[i].objectURL);
+      const objectURL=URL.createObjectURL(file);photoDrafts[i]={file,objectURL,processed:null};
+      choices.replaceChildren();option('original','Αρχική',objectURL);status.textContent='Ετοιμάζεται η επεξεργασμένη πρόταση…';
+      try{
+        const result=await api('/api/photo-preview','POST',{data:await fileData(file)});
+        if(generation!==photoGeneration[i])return;
+        photoDrafts[i].processed=result.data;
+        option('processed',`Λευκό φόντο · ${result.dimensions.fill_percent}% πλάτος`,'data:image/png;base64,'+result.data);
+        status.textContent='Σύγκρινε προσεκτικά τους φακούς και τις άκρες. Επίλεξε την εικόνα που θέλεις να αποθηκευτεί.';
+      }catch(error){if(generation===photoGeneration[i])status.textContent=`Η πρόταση δεν έγινε: ${error.message} Η αρχική φωτογραφία παραμένει διαθέσιμη.`;}
+    });
+    section.append(title,current,input,choices,status); box.append(section);
   });
 }
-function reset(){editing=null;photoPaths=[null,null,null];descriptionVariant=0;seenDrafts=[];$('#productForm').reset();$('#productForm').elements.id.disabled=false;$('#formTitle').textContent='Νέο προϊόν';$('#generate').textContent='Πρόταση από τη βιβλιοθήκη';slots();msg('');}
+function clearPhotoDrafts(){photoDrafts.forEach(draft=>{if(draft?.objectURL)URL.revokeObjectURL(draft.objectURL);});photoDrafts=[null,null,null];photoGeneration=photoGeneration.map(n=>n+1);}
+function reset(){clearPhotoDrafts();editing=null;photoPaths=[null,null,null];descriptionVariant=0;seenDrafts=[];$('#productForm').reset();$('#productForm').elements.id.disabled=false;$('#formTitle').textContent='Νέο προϊόν';$('#generate').textContent='Πρόταση από τη βιβλιοθήκη';slots();msg('');}
 function edit(product){
+  clearPhotoDrafts();
   editing=product.id;photoPaths=[...product.images];descriptionVariant=0;seenDrafts=[]; const f=$('#productForm').elements;
   for(const key of ['id','brand','model','category','price_eur','color_code','material','short_description','style','audience','visual_note']) f[key].value=product[key]??'';
   f.description_confirmed.checked=product.description_review==='approved_by_owner';
@@ -48,7 +74,11 @@ function fileData(file){return new Promise((resolve,reject)=>{const reader=new F
 async function uploadSelectedPhotos(){
   for(let i=0;i<3;i++){
     const input=$(`#photo${i}`),file=input.files[0];if(!file)continue;
-    const upload=await api('/api/upload','POST',{name:`${editing||$('#productForm').elements.id.value}-${i}`,data:await fileData(file)});
+    const draft=photoDrafts[i];
+    if(!draft||draft.file!==file)throw new Error('Περίμενε να εμφανιστεί η προεπισκόπηση φωτογραφίας');
+    const choice=document.querySelector(`input[name="photo-choice-${i}"]:checked`)?.value;
+    const data=choice==='processed'&&draft.processed?draft.processed:await fileData(file);
+    const upload=await api('/api/upload','POST',{name:`${editing||$('#productForm').elements.id.value}-${i}`,data});
     photoPaths[i]=upload.url;input.value='';
   }
   if(photoPaths.some(x=>!x)) throw new Error('Διάλεξε και τις τρεις φωτογραφίες');

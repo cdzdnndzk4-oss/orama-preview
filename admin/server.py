@@ -10,6 +10,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 from PIL import Image
 from description_library import OPENINGS, AUDIENCES, compose_description
+from photo_processing import process_photo
 
 ROOT = Path(__file__).resolve().parents[1]
 ADMIN = Path(__file__).resolve().parent
@@ -144,8 +145,16 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json(200, {"products": products, "preview_only": True})
         if path in ("/", "/admin"):
             return self.serve_file(ADMIN / "index.html")
+        if path == "/review":
+            return self.serve_file(ADMIN / "review.html")
+        if path == "/review.js":
+            return self.serve_file(ADMIN / "review.js")
         if path == "/catalog-preview":
             return self.serve_file(ADMIN / "catalog-preview.html")
+        if path in ("/storefront-preview", "/storefront-preview.html"):
+            return self.serve_file(ROOT / "storefront-preview.html")
+        if path == "/storefront-preview.js":
+            return self.serve_file(ROOT / "storefront-preview.js")
         if path == "/admin.js":
             return self.serve_file(ADMIN / "admin.js")
         if path == "/catalog-preview.js":
@@ -186,6 +195,12 @@ class Handler(BaseHTTPRequestHandler):
                 file = UPLOADS / f"{name}-{secrets.token_hex(5)}.{ 'jpg' if fmt == 'JPEG' else 'png' }"
                 file.write_bytes(data)
                 return self.send_json(201, {"url": file.relative_to(ROOT).as_posix()})
+            if path == "/api/photo-preview":
+                data = base64.b64decode(payload["data"], validate=True)
+                if not 0 < len(data) <= MAX_IMAGE:
+                    raise ValueError("Κάθε φωτογραφία πρέπει να είναι έως 9 MB")
+                processed, dimensions = process_photo(data)
+                return self.send_json(200, {"data": base64.b64encode(processed).decode("ascii"), "dimensions": dimensions})
             if path == "/api/import":
                 rows = payload.get("products")
                 if not isinstance(rows, list) or not rows or len(rows) > 500:
