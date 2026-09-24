@@ -1,0 +1,47 @@
+{
+  "brand": "Round Ten",
+  "model": "CEO 94",
+  "price_eur": 250,
+  "price_review": "confirmed_by_owner",
+  "category": "Γυαλιά Οράσεως",
+  "photo_review": "approved_by_owner",
+  "photos": [
+    {
+      "view": "front",
+      "file": "../assets/products/ceo-94/front.png",
+      "source": "IMG_6536.jpeg"
+    },
+    {
+      "view": "three_quarter",
+      "file": "../assets/products/ceo-94/three-quarter.png",
+      "source": "IMG_6537.jpeg"
+    },
+    {
+      "view": "side",
+      "file": "../assets/products/ceo-94/side.png",
+      "source": "IMG_6538.jpeg"
+    }
+  ],
+  "lens_mm": 48,
+  "bridge_mm": 21,
+  "temple_mm": 146,
+  "color_code": null,
+  "label_photo": "IMG_6562.jpeg",
+  "label_library_file_id": "libfile_d96d2d6ff968819187a1318248aaa786",
+  "additional_label_photo": "IMG_248AF7E5-6228-4F13-873D-ADBCE4E3A5C1.jpeg",
+  "additional_label_library_file_id": "libfile_1d4cfa98fb1c819191ec7012bbb55fb9",
+  "label_marking_note": "Owner supplied model CEO 94 and dimensions 48-21-146 manually after reviewing the temple photos.",
+  "sku": null,
+  "inventory": {
+    "quantity": 1,
+    "store": "Αγία Παρασκευή"
+  },
+  "publication_status": "approved_for_catalog",
+  "short_description": "Ένας θηλυκός σκελετός με απαλή γραμμή και κομψή παρουσία, που δίνει μια πιο προσεγμένη διάθεση στην καθημερινή εμφάνιση. Οι χρυσαφί τόνοι και οι ιδιαίτεροι βραχίονες τον κάνουν να ξεχωρίζει διακριτικά. Μια επιλογή για όσες αγαπούν τα γυαλιά με χαρακτήρα, χωρίς να χρειάζονται υπερβολές.",
+  "description_review": "suggested_pending_owner_review",
+  "material": "Μέταλλο",
+  "material_review": "suggested_pending_owner_review",
+  "style": "κομψό",
+  "audience": "γυναικείο",
+  "visual_note": "Οι χρυσαφί τόνοι και οι ιδιαίτεροι βραχίονες τον κάνουν να ξεχωρίζει διακριτικά"
+}

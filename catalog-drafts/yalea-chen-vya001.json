@@ -1,0 +1,48 @@
+{
+  "brand": "Yalea",
+  "model": "CHEN VYA001",
+  "price_eur": 168,
+  "category": "Γυαλιά Οράσεως",
+  "color_code": "0A93",
+  "lens_mm": 53,
+  "bridge_mm": 16,
+  "temple_mm": 140,
+  "label_photo": "IMG_6561.jpeg",
+  "label_library_file_id": "libfile_40fd307548908191af66dc8ddf552a1a",
+  "photos": [
+    {
+      "view": "front",
+      "file": "../assets/products/yalea-chen-vya001/front.png",
+      "source": "IMG_6545.jpeg",
+      "source_library_file_id": "libfile_459856e3454c8191a1ea3916eb746385"
+    },
+    {
+      "view": "three_quarter",
+      "file": "../assets/products/yalea-chen-vya001/three-quarter.png",
+      "source": "IMG_6546.jpeg",
+      "source_library_file_id": "libfile_752c2f6c3ea081919bc6e70b06bb46c9"
+    },
+    {
+      "view": "side",
+      "file": "../assets/products/yalea-chen-vya001/side.png",
+      "source": "IMG_6547.jpeg",
+      "source_library_file_id": "libfile_1329ee93c7ec8191a389e67567bf1bf8"
+    }
+  ],
+  "photo_review": "approved_by_owner",
+  "review_note": "Owner confirmed that the CHEN VYA001 label belongs to the approved frame photo series.",
+  "sku": null,
+  "inventory": {
+    "quantity": 1,
+    "store": "Αγία Παρασκευή"
+  },
+  "publication_status": "approved_for_catalog",
+  "label_association_review": "confirmed_by_owner",
+  "short_description": "Ένας θηλυκός σκελετός με σύγχρονη αισθητική και κομψή παρουσία, που δίνει χαρακτήρα στην καθημερινή εμφάνιση χωρίς να γίνεται έντονος. Η σκούρα επάνω γραμμή και οι χρυσαφί λεπτομέρειες δημιουργούν μια διακριτική αντίθεση. Ιδανική επιλογή για όσες θέλουν ένα γυαλί με προσωπικότητα, από το πρωί μέχρι το βράδυ.",
+  "description_review": "suggested_pending_owner_review",
+  "material": "Συνδυασμός υλικών",
+  "material_review": "suggested_pending_owner_review",
+  "style": "κομψό",
+  "audience": "γυναικείο",
+  "visual_note": "Η σκούρα επάνω γραμμή και οι χρυσαφί λεπτομέρειες δημιουργούν μια διακριτική αντίθεση"
+}

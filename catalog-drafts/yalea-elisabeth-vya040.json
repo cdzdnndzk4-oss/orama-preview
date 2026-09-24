@@ -1,0 +1,43 @@
+{
+  "brand": "Yalea",
+  "model": "ELISABETH VYA040",
+  "price_eur": 174,
+  "category": "Γυαλιά Οράσεως",
+  "photo_review": "approved_by_owner",
+  "photos": [
+    {
+      "view": "front",
+      "file": "../assets/products/yalea-elisabeth-vya040/front.png",
+      "source": "IMG_6539.jpeg"
+    },
+    {
+      "view": "three_quarter",
+      "file": "../assets/products/yalea-elisabeth-vya040/three-quarter.png",
+      "source": "IMG_6540.jpeg"
+    },
+    {
+      "view": "side",
+      "file": "../assets/products/yalea-elisabeth-vya040/side.png",
+      "source": "IMG_6541.jpeg"
+    }
+  ],
+  "lens_mm": 55,
+  "bridge_mm": 17,
+  "temple_mm": 135,
+  "color_code": "0307",
+  "label_photo": "IMG_6563.jpeg",
+  "label_library_file_id": "libfile_02d602304ed08191990b7d52b16b1b87",
+  "sku": null,
+  "inventory": {
+    "quantity": 1,
+    "store": "Αγία Παρασκευή"
+  },
+  "publication_status": "approved_for_catalog",
+  "short_description": "Ένα σύγχρονο μοντέλο με εκλεπτυσμένη παρουσία, για όσες θέλουν το γυαλί τους να αναδεικνύει το προσωπικό τους στιλ με διακριτικό τρόπο. Το σκούρο περίγραμμα και οι χρυσαφί λεπτομέρειες του δίνουν χαρακτήρα, χωρίς να χάνει την ισορροπία του. Μια επιλογή που συνοδεύει εξίσου όμορφα την καθημερινή και την πιο προσεγμένη εμφάνιση.",
+  "description_review": "suggested_pending_owner_review",
+  "material": "Μέταλλο",
+  "material_review": "suggested_pending_owner_review",
+  "style": "σύγχρονο",
+  "audience": "γυναικείο",
+  "visual_note": "Το σκούρο περίγραμμα και οι χρυσαφί λεπτομέρειες του δίνουν χαρακτήρα χωρίς υπερβολές"
+}

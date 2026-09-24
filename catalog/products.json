@@ -1,0 +1,149 @@
+{
+  "products": [
+    {
+      "id": "ceo-94",
+      "brand": "Round Ten",
+      "model": "CEO 94",
+      "color_code": null,
+      "category": "Γυαλιά Οράσεως",
+      "price_eur": 250,
+      "short_description": "Ένας θηλυκός σκελετός με απαλή γραμμή και κομψή παρουσία, που δίνει μια πιο προσεγμένη διάθεση στην καθημερινή εμφάνιση. Οι χρυσαφί τόνοι και οι ιδιαίτεροι βραχίονες τον κάνουν να ξεχωρίζει διακριτικά. Μια επιλογή για όσες αγαπούν τα γυαλιά με χαρακτήρα, χωρίς να χρειάζονται υπερβολές.",
+      "style": "κομψό",
+      "audience": "γυναικείο",
+      "visual_note": "Οι χρυσαφί τόνοι και οι ιδιαίτεροι βραχίονες τον κάνουν να ξεχωρίζει διακριτικά",
+      "description_review": "suggested_pending_owner_review",
+      "material": "Μέταλλο",
+      "material_review": "suggested_pending_owner_review",
+      "dimensions_mm": {
+        "lens": 48,
+        "bridge": 21,
+        "temple": 146
+      },
+      "images": [
+        "assets/products/ceo-94/front.png",
+        "assets/products/ceo-94/three-quarter.png",
+        "assets/products/ceo-94/side.png"
+      ],
+      "inventory": {
+        "quantity": 1,
+        "store": "Αγία Παρασκευή"
+      }
+    },
+    {
+      "id": "furla-535",
+      "brand": "FURLA",
+      "model": "535",
+      "color_code": "0216",
+      "category": "Γυαλιά Οράσεως",
+      "price_eur": 196,
+      "short_description": "Ένας θηλυκός σκελετός με σύγχρονο χαρακτήρα, που συνδυάζει καθαρές γραμμές με μια διακριτική αντίθεση χρωμάτων. Η σκούρα επάνω γραμμή, το χρυσαφί περίγραμμα και οι ανοιχτόχρωμοι βραχίονες του δίνουν προσωπικότητα. Ιδανική επιλογή για όσες θέλουν ένα γυαλί που ξεχωρίζει χωρίς να γίνεται υπερβολικό.",
+      "style": "κομψό",
+      "audience": "γυναικείο",
+      "visual_note": "Η σκούρα επάνω γραμμή, το χρυσαφί περίγραμμα και οι ανοιχτόχρωμοι βραχίονες του δίνουν προσωπικότητα",
+      "description_review": "suggested_pending_owner_review",
+      "material": "Μέταλλο",
+      "material_review": "suggested_pending_owner_review",
+      "dimensions_mm": {
+        "lens": 51,
+        "bridge": 19,
+        "temple": 135
+      },
+      "images": [
+        "assets/products/furla-535/front.png",
+        "assets/products/furla-535/three-quarter.png",
+        "assets/products/furla-535/side.png"
+      ],
+      "inventory": {
+        "quantity": 1,
+        "store": "Αγία Παρασκευή"
+      }
+    },
+    {
+      "id": "furla-vfu773",
+      "brand": "FURLA",
+      "model": "VFU773",
+      "color_code": "0300",
+      "category": "Γυαλιά Οράσεως",
+      "price_eur": 193,
+      "short_description": "Ένα ιδιαίτερο μοντέλο με διακριτική παρουσία από μπροστά και πιο δυναμικό χαρακτήρα στους βραχίονες, για όσες θέλουν το γυαλί τους να εκφράζει το προσωπικό τους στιλ. Αφήνει το πρόσωπο να πρωταγωνιστεί και ξεχωρίζει μέσα από τις λεπτομέρειες, χωρίς να χάνει την κομψότητά του στην καθημερινή χρήση.",
+      "style": "ιδιαίτερο",
+      "audience": "γυναικείο",
+      "visual_note": "Η διακριτική όψη από μπροστά συναντά τον πιο δυναμικό χαρακτήρα των βραχιόνων",
+      "description_review": "suggested_pending_owner_review",
+      "material": "Μέταλλο",
+      "material_review": "suggested_pending_owner_review",
+      "dimensions_mm": {
+        "lens": 54,
+        "bridge": 18,
+        "temple": 140
+      },
+      "images": [
+        "assets/products/furla-vfu773/front.png",
+        "assets/products/furla-vfu773/three-quarter.png",
+        "assets/products/furla-vfu773/side.png"
+      ],
+      "inventory": {
+        "quantity": 1,
+        "store": "Αγία Παρασκευή"
+      }
+    },
+    {
+      "id": "yalea-chen-vya001",
+      "brand": "Yalea",
+      "model": "CHEN VYA001",
+      "color_code": "0A93",
+      "category": "Γυαλιά Οράσεως",
+      "price_eur": 168,
+      "short_description": "Ένας θηλυκός σκελετός με σύγχρονη αισθητική και κομψή παρουσία, που δίνει χαρακτήρα στην καθημερινή εμφάνιση χωρίς να γίνεται έντονος. Η σκούρα επάνω γραμμή και οι χρυσαφί λεπτομέρειες δημιουργούν μια διακριτική αντίθεση. Ιδανική επιλογή για όσες θέλουν ένα γυαλί με προσωπικότητα, από το πρωί μέχρι το βράδυ.",
+      "style": "κομψό",
+      "audience": "γυναικείο",
+      "visual_note": "Η σκούρα επάνω γραμμή και οι χρυσαφί λεπτομέρειες δημιουργούν μια διακριτική αντίθεση",
+      "description_review": "suggested_pending_owner_review",
+      "material": "Συνδυασμός υλικών",
+      "material_review": "suggested_pending_owner_review",
+      "dimensions_mm": {
+        "lens": 53,
+        "bridge": 16,
+        "temple": 140
+      },
+      "images": [
+        "assets/products/yalea-chen-vya001/front.png",
+        "assets/products/yalea-chen-vya001/three-quarter.png",
+        "assets/products/yalea-chen-vya001/side.png"
+      ],
+      "inventory": {
+        "quantity": 1,
+        "store": "Αγία Παρασκευή"
+      }
+    },
+    {
+      "id": "yalea-elisabeth-vya040",
+      "brand": "Yalea",
+      "model": "ELISABETH VYA040",
+      "color_code": "0307",
+      "category": "Γυαλιά Οράσεως",
+      "price_eur": 174,
+      "short_description": "Ένα σύγχρονο μοντέλο με εκλεπτυσμένη παρουσία, για όσες θέλουν το γυαλί τους να αναδεικνύει το προσωπικό τους στιλ με διακριτικό τρόπο. Το σκούρο περίγραμμα και οι χρυσαφί λεπτομέρειες του δίνουν χαρακτήρα, χωρίς να χάνει την ισορροπία του. Μια επιλογή που συνοδεύει εξίσου όμορφα την καθημερινή και την πιο προσεγμένη εμφάνιση.",
+      "style": "σύγχρονο",
+      "audience": "γυναικείο",
+      "visual_note": "Το σκούρο περίγραμμα και οι χρυσαφί λεπτομέρειες του δίνουν χαρακτήρα χωρίς υπερβολές",
+      "description_review": "suggested_pending_owner_review",
+      "material": "Μέταλλο",
+      "material_review": "suggested_pending_owner_review",
+      "dimensions_mm": {
+        "lens": 55,
+        "bridge": 17,
+        "temple": 135
+      },
+      "images": [
+        "assets/products/yalea-elisabeth-vya040/front.png",
+        "assets/products/yalea-elisabeth-vya040/three-quarter.png",
+        "assets/products/yalea-elisabeth-vya040/side.png"
+      ],
+      "inventory": {
+        "quantity": 1,
+        "store": "Αγία Παρασκευή"
+      }
+    }
+  ]
+}
