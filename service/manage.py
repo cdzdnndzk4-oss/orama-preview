@@ -41,7 +41,7 @@ def seed(conn, source=ROOT / "catalog/products.json"):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=("init", "seed", "create-admin", "ensure-local-admin"))
+    parser.add_argument("action", choices=("init", "seed", "create-admin", "ensure-local-admin", "sync-local-catalog"))
     parser.add_argument("--email")
     args = parser.parse_args()
     url = os.environ.get("DATABASE_URL", "")
@@ -67,7 +67,7 @@ def main():
             conn.add(AdminUser(id=uuid.uuid4().hex, email=email, password_hash=HASHER.hash(password)))
             conn.commit()
         print("Admin created")
-    else:
+    elif args.action == "ensure-local-admin":
         if os.getenv("ORAMA_LOCAL_MODE") != "1":
             parser.error("ensure-local-admin is allowed only with ORAMA_LOCAL_MODE=1")
         email = os.getenv("ORAMA_LOCAL_ADMIN_EMAIL", "local@orama.test").strip().lower()
@@ -84,6 +84,24 @@ def main():
                 conn.add(AdminUser(id=uuid.uuid4().hex, email=email, password_hash=HASHER.hash(password)))
                 conn.commit()
                 print("Local admin created:", email)
+    else:
+        if os.getenv("ORAMA_LOCAL_MODE") != "1":
+            parser.error("sync-local-catalog is allowed only with ORAMA_LOCAL_MODE=1")
+        source = json.loads((ROOT / "catalog/products.json").read_text(encoding="utf-8"))["products"]
+        changed = 0
+        with Session(engine) as conn:
+            for item in source:
+                row = conn.get(Product, item["id"])
+                if not row:
+                    continue
+                row.description = item.get("short_description") or ""
+                row.description_review = item.get("description_review", "pending_review")
+                if item.get("material_review") == "approved_by_owner":
+                    row.material = item.get("material")
+                    row.material_review = "approved_by_owner"
+                changed += 1
+            conn.commit()
+        print("Local catalog synchronized:", changed)
 
 
 if __name__ == "__main__":
