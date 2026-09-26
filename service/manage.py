@@ -41,7 +41,7 @@ def seed(conn, source=ROOT / "catalog/products.json"):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=("init", "seed", "create-admin"))
+    parser.add_argument("action", choices=("init", "seed", "create-admin", "ensure-local-admin"))
     parser.add_argument("--email")
     args = parser.parse_args()
     url = os.environ.get("DATABASE_URL", "")
@@ -54,7 +54,7 @@ def main():
     elif args.action == "seed":
         with Session(engine) as conn:
             print("Imported:", ", ".join(seed(conn)) or "none (already present)")
-    else:
+    elif args.action == "create-admin":
         email = (args.email or input("Admin email: ")).strip().lower()
         if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
             parser.error("Invalid email")
@@ -67,6 +67,23 @@ def main():
             conn.add(AdminUser(id=uuid.uuid4().hex, email=email, password_hash=HASHER.hash(password)))
             conn.commit()
         print("Admin created")
+    else:
+        if os.getenv("ORAMA_LOCAL_MODE") != "1":
+            parser.error("ensure-local-admin is allowed only with ORAMA_LOCAL_MODE=1")
+        email = os.getenv("ORAMA_LOCAL_ADMIN_EMAIL", "local@orama.test").strip().lower()
+        password = os.getenv("ORAMA_LOCAL_ADMIN_PASSWORD", "")
+        if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
+            parser.error("Invalid ORAMA_LOCAL_ADMIN_EMAIL")
+        if len(password) < 16:
+            parser.error("ORAMA_LOCAL_ADMIN_PASSWORD must be at least 16 characters")
+        with Session(engine) as conn:
+            existing = conn.scalar(select(AdminUser).where(AdminUser.email == email))
+            if existing:
+                print("Local admin already exists:", email)
+            else:
+                conn.add(AdminUser(id=uuid.uuid4().hex, email=email, password_hash=HASHER.hash(password)))
+                conn.commit()
+                print("Local admin created:", email)
 
 
 if __name__ == "__main__":
