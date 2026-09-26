@@ -46,6 +46,8 @@ def test_auth_csrf_drafts_publish_and_pagination(tmp_path):
     assert client.get("/admin/api/products").status_code == 401
     assert client.put("/admin/api/products/test-frame", json={}).status_code == 401
     headers = auth(client)
+    assert client.get("/admin/api/products/furla-535").status_code == 200
+    assert client.get("/admin/api/products/missing-product").status_code == 404
     assert client.put("/admin/api/products/test-frame", json={}, headers={}).status_code == 403
     with Session(app.state.engine) as db:
         source = db.get(Product, "furla-535")
