@@ -1,0 +1,71 @@
+name: orama-local
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: orama
+      POSTGRES_USER: orama
+      POSTGRES_PASSWORD: orama-local-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orama -d orama"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  setup:
+    build:
+      context: ../..
+      dockerfile: deploy/staging/Dockerfile
+    user: root
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://orama:orama-local-db@postgres:5432/orama
+      ORAMA_LOCAL_MODE: "1"
+      ORAMA_LOCAL_ADMIN_EMAIL: ${ORAMA_LOCAL_ADMIN_EMAIL:-local@orama.test}
+      ORAMA_LOCAL_ADMIN_PASSWORD: ${ORAMA_LOCAL_ADMIN_PASSWORD:-OramaLocalAdmin2026!}
+    command:
+      - /bin/sh
+      - -c
+      - >-
+        python -m service.manage init &&
+        python -m service.manage seed &&
+        python -m service.manage ensure-local-admin
+    restart: "no"
+
+  app:
+    build:
+      context: ../..
+      dockerfile: deploy/staging/Dockerfile
+    user: root
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      setup:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:8766:8766"
+    environment:
+      DATABASE_URL: postgresql+psycopg://orama:orama-local-db@postgres:5432/orama
+      ORAMA_TEST_STORAGE: /local-data
+      ORAMA_PUBLIC_ORIGIN: http://localhost:8766
+    volumes:
+      - photo_data:/local-data
+    command:
+      - uvicorn
+      - service.app:local_app_from_env
+      - --factory
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8766"
+
+volumes:
+  postgres_data:
+  photo_data:
