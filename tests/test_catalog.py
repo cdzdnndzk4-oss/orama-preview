@@ -38,7 +38,7 @@ def test_seed_and_public_catalog(tmp_path):
     assert client.get("/api/catalog?q=nonexistent").json()["total"] == 0
     with Session(app.state.engine) as db:
         assert all(p.audience is None for p in db.query(Product).all())
-        assert db.get(Product, "ceo-94").description_review == "pending_review"
+        assert db.get(Product, "ceo-94").description_review == "approved_by_owner"
 
 
 def test_auth_csrf_drafts_publish_and_pagination(tmp_path):
@@ -60,7 +60,8 @@ def test_auth_csrf_drafts_publish_and_pagination(tmp_path):
     assert client.get("/api/catalog").json()["total"] == 4
     payload["published"] = True
     payload["description_verified"] = True
-    assert client.put("/admin/api/products/furla-535", json=payload, headers=headers).status_code == 422  # unverified feminine claim
+    payload["description"] = "Ένας γυναικείος σκελετός με καθαρές γραμμές."
+    assert client.put("/admin/api/products/furla-535", json=payload, headers=headers).status_code == 422  # unverified gender claim
     payload["description"] = "Κλασική αντίθεση χρωμάτων και διακριτική γραμμή στον σκελετό."
     assert client.put("/admin/api/products/furla-535", json=payload, headers=headers).status_code == 200
     assert client.get("/api/catalog").json()["total"] == 5
