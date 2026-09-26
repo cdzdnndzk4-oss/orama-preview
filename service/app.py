@@ -226,6 +226,13 @@ def create_app(database_url=None, storage=None, testing=False):
         rows = conn.scalars(stmt.order_by(Product.id).offset((page - 1) * 24).limit(24)).all()
         return {"products": [serialize(p) for p in rows], "total": total, "page": page}
 
+    @app.get("/admin/api/products/{product_id}")
+    def admin_product(product_id: str, _: Session = Depends(require_admin), conn: DBSession = Depends(db)):
+        row = conn.get(Product, product_id)
+        if not row:
+            raise HTTPException(404)
+        return serialize(row)
+
     @app.put("/admin/api/products/{product_id}")
     def save_product(product_id: str, payload: ProductInput, _: Session = Depends(require_admin), conn: DBSession = Depends(db)):
         if payload.id != product_id:
