@@ -16,14 +16,21 @@ from service.models import AdminUser, Base, Product
 def seed(conn, source=ROOT / "catalog/products.json"):
     created = []
     for item in json.loads(Path(source).read_text(encoding="utf-8"))["products"]:
-        if conn.get(Product, item["id"]):
+        description = item.get("short_description") or ""
+        existing = conn.get(Product, item["id"])
+        if existing:
+            # Preserve owner edits. If the stored copy is still exactly the checked
+            # seed copy, keep the approval state recorded in catalog/products.json.
+            if existing.description == description and item.get("description_review") == "approved_by_owner":
+                existing.description_review = "approved_by_owner"
+            if existing.material == item.get("material") and item.get("material_review") == "approved_by_owner":
+                existing.material_review = "approved_by_owner"
             continue
         if len(item["images"]) != 3 or not all((ROOT / path).is_file() for path in item["images"]):
             raise ValueError("Missing original approved photos: " + item["id"])
         inv = item["inventory"]
-        description = item.get("short_description") or ""
-        # Old audience labels were not independently verified. Preserve them in
-        # the source JSON, but never migrate/display them as confirmed metadata.
+        # Audience metadata remains unverified unless explicitly confirmed in admin.
+        # Approved product copy/material from the checked source remains approved.
         row = Product(id=item["id"], brand=item["brand"], model=item["model"],
                       color_code=item.get("color_code"), frame_color=None,
                       material=item.get("material"), material_review=item.get("material_review", "pending_review"),
@@ -31,7 +38,7 @@ def seed(conn, source=ROOT / "catalog/products.json"):
                       price_cents=round(item["price_eur"] * 100), lens=item["dimensions_mm"]["lens"],
                       bridge=item["dimensions_mm"]["bridge"], temple=item["dimensions_mm"]["temple"],
                       availability={inv["store"]: inv["quantity"]}, description=description,
-                      description_review="pending_review" if GENDER_TERMS.search(description) else item.get("description_review", "pending_review"),
+                      description_review=item.get("description_review", "pending_review"),
                       published=True, legacy_images=item["images"])
         conn.add(row)
         created.append(row.id)
