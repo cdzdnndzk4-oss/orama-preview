@@ -35,6 +35,7 @@ services:
       - >-
         python -m service.manage init &&
         python -m service.manage seed &&
+        python -m service.manage sync-local-catalog &&
         python -m service.manage ensure-local-admin
     restart: "no"
 
