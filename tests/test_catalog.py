@@ -8,6 +8,7 @@ from service.app import HASHER, create_app
 from service.manage import seed
 from service.models import AdminUser, Base, Product
 from service.storage import Storage
+from tests.photo_fixture import lightbox_photo
 
 
 def setup(tmp_path):
@@ -93,8 +94,7 @@ def test_import_is_atomic_and_private(tmp_path):
 def test_photo_review_blocks_publication_until_choice(tmp_path):
     app, client = setup(tmp_path)
     headers = auth(client)
-    source = Path(__file__).resolve().parents[2] / "upload/01-IMG_6530.jpeg"
-    response = client.post("/admin/api/products/furla-535/photos/front", files={"file": ("front.jpg", source.read_bytes(), "image/jpeg")}, headers=headers)
+    response = client.post("/admin/api/products/furla-535/photos/front", files={"file": ("front.jpg", lightbox_photo(), "image/jpeg")}, headers=headers)
     assert response.status_code == 200, response.text
     draft = response.json()
     assert draft["status"] == "pending_review" and draft["analysis"]["method"] == "source-pixels-only"
@@ -110,5 +110,10 @@ def test_photo_review_blocks_publication_until_choice(tmp_path):
                        temple=p.temple, availability=p.availability,
                        description="Καθαρή γραμμή και χρωματική αντίθεση σε καθημερινό σκελετό.",
                        description_verified=True, published=True)
+    assert client.put("/admin/api/products/furla-535", json=payload, headers=headers).status_code == 422
+    for view in ("three-quarter", "side"):
+        draft_view = client.post(f"/admin/api/products/furla-535/photos/{view}", files={"file": ("view.jpg", lightbox_photo(), "image/jpeg")}, headers=headers).json()
+        assert client.put("/admin/api/products/furla-535", json=payload, headers=headers).status_code == 422
+        assert client.put("/admin/api/photos/" + draft_view["photo_id"] + "/choice", json={"chosen": "original"}, headers=headers).status_code == 200
     assert client.put("/admin/api/products/furla-535", json=payload, headers=headers).status_code == 200
     assert client.get("/media/" + draft["photo_id"]).status_code == 200

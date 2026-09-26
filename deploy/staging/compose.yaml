@@ -1,0 +1,73 @@
+name: orama-staging
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: orama
+      POSTGRES_USER: orama
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set-in-private-env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orama -d orama"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  minio:
+    image: quay.io/minio/minio:latest
+    command: server /data
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?set-in-private-env}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?set-in-private-env}
+    volumes:
+      - object_data:/data
+  bucket:
+    image: quay.io/minio/mc:latest
+    depends_on: [minio]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?set-in-private-env}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?set-in-private-env}
+    entrypoint: ["/bin/sh", "-c"]
+    command: >-
+      'until mc alias set local http://minio:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD" && mc ready local;
+      do sleep 2; done;
+      mc mb --ignore-existing --with-versioning local/orama-private'
+  app:
+    build:
+      context: ../..
+      dockerfile: deploy/staging/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      bucket:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?set-in-private-env}
+      ORAMA_S3_BUCKET: orama-private
+      ORAMA_S3_ENDPOINT_URL: http://minio:9000
+      AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:?set-in-private-env}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:?set-in-private-env}
+      ORAMA_PUBLIC_ORIGIN: https://${STAGING_HOST:?set-in-private-env}
+  caddy:
+    image: caddy:2.10
+    restart: unless-stopped
+    depends_on: [app]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      STAGING_HOST: ${STAGING_HOST:?set-in-private-env}
+      STAGING_BASIC_USER: ${STAGING_BASIC_USER:?set-in-private-env}
+      STAGING_BASIC_HASH: ${STAGING_BASIC_HASH:?set-in-private-env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+volumes:
+  postgres_data:
+  object_data:
+  caddy_data:
+  caddy_config:

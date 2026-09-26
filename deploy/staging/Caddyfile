@@ -1,0 +1,14 @@
+{$STAGING_HOST} {
+    basic_auth {
+        {$STAGING_BASIC_USER} {$STAGING_BASIC_HASH}
+    }
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "no-referrer"
+    }
+    request_body {
+        max_size 10MB
+    }
+    reverse_proxy app:8766
+}

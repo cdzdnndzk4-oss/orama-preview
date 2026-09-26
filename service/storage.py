@@ -8,7 +8,7 @@ class Storage:
         self.bucket, self.local = bucket, Path(local) if local else None
         if bucket:
             import boto3
-            self.client = boto3.client("s3")
+            self.client = boto3.client("s3", endpoint_url=os.getenv("ORAMA_S3_ENDPOINT_URL") or None)
         elif not self.local:
             raise RuntimeError("Private S3 bucket required")
 
@@ -23,8 +23,13 @@ class Storage:
 
     def put(self, key, content, content_type):
         if self.bucket:
-            self.client.put_object(Bucket=self.bucket, Key=key, Body=content, ContentType=content_type,
-                                   ServerSideEncryption="AES256")
+            options = dict(Bucket=self.bucket, Key=key, Body=content, ContentType=content_type)
+            # AWS S3 uses SSE-S3. Self-hosted S3 implementations need an
+            # explicitly configured KMS before this header is safe to require.
+            sse = os.getenv("ORAMA_S3_SSE", "" if os.getenv("ORAMA_S3_ENDPOINT_URL") else "AES256")
+            if sse:
+                options["ServerSideEncryption"] = sse
+            self.client.put_object(**options)
         else:
             destination = self.local / key
             destination.parent.mkdir(parents=True, exist_ok=True)

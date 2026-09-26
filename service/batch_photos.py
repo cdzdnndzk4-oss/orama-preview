@@ -49,7 +49,7 @@ def run(manifest, engine, storage, apply=False):
                 prefix = f"photos/{product.id}/{photo.id}/{uuid.uuid4().hex}"
                 storage.put(prefix + "/original", data, "image/jpeg" if data[:2] == b"\xff\xd8" else "image/png")
                 storage.put(prefix + "/processed", processed, "image/png")
-                photo.original_key, photo.processed_key, photo.chosen = prefix + "/original", prefix + "/processed", "processed"
+                photo.original_key, photo.processed_key, photo.chosen = prefix + "/original", prefix + "/processed", None
                 product.published = False
                 db.commit()  # A failure does not roll back already imported photos.
             result.append((product.id, item["view"], "DRAFT: preview required" if apply else "DRY RUN: eligible"))

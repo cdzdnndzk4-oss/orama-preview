@@ -1,6 +1,6 @@
 # ORAMA catalog service (branch pilot)
 
-This is the next layer for the existing `index.html`, not a replacement design. It is **not deployed**. The GitHub Pages preview remains the old independent prototype until a separately approved deployment uses this service. Checkout, real payments, ACS, account creation, domain and Wix are out of scope.
+This is the next layer for the existing `index.html`, not a replacement design. It is **not deployed**. See `deploy/staging/README.md` for the separate private staging recipe and prerequisites. The GitHub Pages preview remains the old independent prototype until that deployment uses this service. Checkout, real payments, ACS, account creation, domain and Wix are out of scope.
 
 ## Architecture and deployment prerequisites
 
@@ -20,7 +20,7 @@ The public catalog queries PostgreSQL for published products with search, filter
 
 The worker reads source JPEG/PNG pixels, estimates the lightbox background, and creates a 1200×900 #FFFFFF draft with a faint source-derived shadow. It does **not** generate, inpaint, or redraw frames. The original and processed image are stored separately. Uploading a replacement unpublishes the product. The admin compares both and chooses one for each of front / three-quarter / side before publishing.
 
-For volume, prepare a CSV with columns `product_id,view,path`; run `python -m service.batch_photos photos.csv` as a dry run and then `python -m service.batch_photos photos.csv --apply` in the trusted worker. Up to 3,000 rows per manifest can be processed without editing images one by one. Automatically processed images are selected as **drafts**, and affected products stay unpublished pending visual review. Rejected photos remain untouched and are reported for manual handling. Batch retries overwrite only the specified product/view and preserve other views. Operators should review the preview gallery and override any problematic draft.
+For volume, prepare a CSV with columns `product_id,view,path`; run `python -m service.batch_photos photos.csv` as a dry run and then `python -m service.batch_photos photos.csv --apply` in the trusted worker. Up to 3,000 rows per manifest can be processed without editing images one by one. Each imported view has **no selected image** (`chosen=None`); all three views must be explicitly approved in the private admin gallery before publication. Click “Σύγκριση σε πλήρη ανάλυση / zoom” for the full original and processed files, then select the preferred version per view. Rejected photos remain untouched and are reported for manual handling. Batch retries overwrite only the specified product/view and preserve other views.
 
 ## Still unverified or pending
 

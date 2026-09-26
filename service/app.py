@@ -234,9 +234,9 @@ def create_app(database_url=None, storage=None, testing=False):
         if not row:
             row = Product(id=product_id, legacy_images=[])
             conn.add(row)
-        photo_views = {p.view for p in row.photos}
-        if payload.published and (any(not p.chosen for p in row.photos) or
-                                  any(view not in photo_views and i >= len(row.legacy_images) for i, view in enumerate(VIEWS))):
+        approved = {p.view for p in row.photos if p.chosen}
+        if payload.published and ((row.photos and approved != set(VIEWS)) or
+                                  (not row.photos and len(row.legacy_images) != len(VIEWS))):
             raise HTTPException(422, "Χρειάζονται τρεις εγκεκριμένες εικόνες")
         apply_product(row, payload)
         conn.commit()

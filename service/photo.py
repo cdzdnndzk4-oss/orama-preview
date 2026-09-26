@@ -62,19 +62,25 @@ def process_photo(data: bytes):
     pixels = array[y1:y2, x1:x2]
     bg = background[y1:y2, None, :]
     diff = np.maximum(bg - pixels, 0)
-    # The estimated white balance removes the grey lightbox but only subtracts
-    # source/background difference. No inpainting or synthetic frame pixels.
-    alpha = np.clip((diff.max(2) - 4) / 58, 0, 1)
-    # A faint real shadow survives where the source differs slightly from the
-    # lightbox. Avoid a hard halo at the crop edge.
+    # Keep the original RGB of rims and logos. Lightbox pixels are mapped to
+    # white by a confidence mask; weak, source-derived differences remain a
+    # subtle natural shadow. Never synthesize object colors or geometry.
+    signal = diff.max(2)
+    alpha = np.clip((signal - 3) / 23, 0, 1)
+    alpha = alpha * alpha * (3 - 2 * alpha)
+    # Illumination bands in the lightbox can differ from a row baseline.
+    # Retain faint pixels only near clearly detected frame pixels; this also
+    # carries the small real contact shadow without copying the grey box.
+    firm = Image.fromarray((signal > 42).astype("uint8") * 255, "L")
+    support = np.asarray(firm.filter(ImageFilter.MaxFilter(19)).filter(ImageFilter.GaussianBlur(5)), dtype=np.float32) / 255
+    alpha *= support
     edge = np.minimum.reduce(np.broadcast_arrays(
         np.arange(len(alpha))[:, None], np.arange(len(alpha))[::-1, None],
         np.arange(alpha.shape[1])[None, :], np.arange(alpha.shape[1])[None, ::-1]))
     alpha *= np.clip(edge / 18, 0, 1)
-    # Preserve hue of the actual object; white normalization adjusts only the
-    # lightbox illumination. Thin metal logos and rim details remain source data.
-    normalized = np.clip(pixels + (255 - bg), 0, 255)
-    output_pixels = 255 - alpha[..., None] * (255 - normalized)
+    # Full opacity at real high-contrast source pixels. In the faint band,
+    # reconstruct only the white background, retaining observed shadows.
+    output_pixels = 255 - alpha[..., None] * (255 - pixels)
     cutout = Image.fromarray(output_pixels.clip(0, 255).astype("uint8"), "RGB")
     scale = min(CANVAS[0] * .78 / cutout.width, CANVAS[1] * .55 / cutout.height, 2)
     cutout = cutout.resize((round(cutout.width * scale), round(cutout.height * scale)), Image.Resampling.LANCZOS)
