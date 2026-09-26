@@ -36,6 +36,9 @@ def test_seed_and_public_catalog(tmp_path):
     assert all(len(p["images"]) == 3 for p in data["products"])
     assert client.get(data["products"][0]["images"][0]).status_code == 200
     assert client.get("/api/catalog?q=nonexistent").json()["total"] == 0
+    furla = client.get("/api/catalog/furla-vfu773").json()
+    assert furla["short_description"]
+    assert "διακριτική παρουσία" in furla["short_description"]
     with Session(app.state.engine) as db:
         assert all(p.audience is None for p in db.query(Product).all())
         assert db.get(Product, "ceo-94").description_review == "approved_by_owner"
