@@ -342,4 +342,9 @@ def app_from_env():
     return create_app()
 
 
-app = None  # Use `uvicorn service.app:app_from_env --factory` to fail closed on missing configuration.
+def local_app_from_env():
+    """Local-only factory: PostgreSQL + private disk storage, HTTP on localhost."""
+    return create_app(testing=True)
+
+
+app = None  # Use an explicit factory so missing deployment configuration fails closed.
